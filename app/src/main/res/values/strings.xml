@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Training Viewer</string>
+    <string name="status_connect">Status: Connected</string>
+    <string name="status_disconnect">Status: Disconnected</string>
 </resources>

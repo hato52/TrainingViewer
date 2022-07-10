@@ -6,7 +6,6 @@ import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
 import android.content.pm.PackageManager
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 // 接続成功時にはサービス検索
                 Log.d("BLE_STATUS", "Connected!")
                 this@MainActivity.runOnUiThread {
-                    binding.textStatus.text = "Status: Connected"
+                    binding.textStatus.text = getString(R.string.status_connect)
                 }
                 stopScan()
                 bluetoothGatt = gatt
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 // 切断時にはオブジェクトを空にする
                 Log.d("BLE_STATUS", "Connecting lost")
                 this@MainActivity.runOnUiThread {
-                    binding.textStatus.text = "Status: Disconnected"
+                    binding.textStatus.text = getString(R.string.status_disconnect)
                 }
                 gatt.close()
             }
@@ -116,10 +115,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         // Bluetooth初期処理
-        initLocate()
         initBle()
 
-        binding.textStatus.text = "Status: Disconnected"
+        binding.textStatus.text = getString(R.string.status_disconnect)
 
         binding.buttonConnect.setOnClickListener {
             bluetoothAdapter.bluetoothLeScanner.startScan(mScanCallback)
@@ -129,10 +127,6 @@ class MainActivity : AppCompatActivity() {
             bluetoothGatt.close()
             bluetoothGatt
         }
-    }
-
-    private fun initLocate() {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
     private fun initBle() {
@@ -156,14 +150,5 @@ class MainActivity : AppCompatActivity() {
     private fun stopScan() {
         checkBlePermission()
         bluetoothAdapter.bluetoothLeScanner.stopScan(mScanCallback)
-    }
-
-    private fun reloadUI(status: String, count: Int) {
-        if (status.isNotEmpty()) {
-            binding.textStatus.text = status
-        }
-        if (count >= 0) {
-            binding.textCount.text = count.toString()
-        }
     }
 }
