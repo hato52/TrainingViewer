@@ -125,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonDisconnect.setOnClickListener {
             bluetoothGatt.close()
-            bluetoothGatt
+            binding.textStatus.text = getString(R.string.status_disconnect)
         }
     }
 
@@ -142,9 +142,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun byteArrayToInt(byteArray: ByteArray?) : Int {
-        byteArray ?: return 0
-        return byteArray[0].toInt()
+    private fun byteArrayToInt(byteArray: ByteArray?) : UInt {
+        byteArray ?: return 0u
+        return byteArray[0].toUInt()
     }
 
     private fun stopScan() {
